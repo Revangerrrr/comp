@@ -7,11 +7,7 @@ using namespace std;
 Server::Server() 
 {
   cout << "Server::Constructor" << endl;
- 
   fRefCount = 0;
-
-  a = 10;
-  b = 20;
 }
 
 Server::~Server()  
@@ -25,15 +21,15 @@ HRESULT_ __stdcall Server::QueryInterface(const IID_& iid, void** ppv)
 
    if (iid==IID_IUnknown_)
    {
-     *ppv = (IUnknown_*)(IX*)this;
+     *ppv = (IUnknown_*)(Task*)this;
    }
-   else if (iid==IID_IX)
+   else if (iid==IID_Task)
    {
-     *ppv = static_cast<IX*>(this);
+     *ppv = static_cast<Task*>(this);
    }
-   else if (iid==IID_IY)
+   else if (iid==IID_TaskManager)
    {
-     *ppv = (IY*)this;
+     *ppv = static_cast<TaskManager*>(this);
    }
    else
    {
@@ -68,34 +64,44 @@ ULONG_ __stdcall Server::Release()
 }
 	
 
-HRESULT_ __stdcall Server::Fx1() 
+HRESULT_ __stdcall Server::SetTitle(const char* title) 
 {	 	    		
-  cout << "Server::Fx1" << endl;
-  a = a + 1;
-  cout << "a=" << a << endl;
+  cout << "Server::SetTitle" << endl;
   return S_OK_;
 }
 
-HRESULT_ __stdcall Server::Fx2() 
+HRESULT_ __stdcall Server::SetDiscription(const char* desc) 
 {	 	    		
-  cout << "Server::Fx2" << endl;
-  a = a + 2;
-  cout << "a=" << a << endl;
+  cout << "Server::SetDiscription" << endl;
   return S_OK_;
 }
 
-HRESULT_ __stdcall Server::Fy1() 
+HRESULT_ __stdcall Server::SetDueDate(const char* date)
 {	 	    		
-  cout << "Server::Fy1" << endl;
-  b = b + 1;
-  cout << "b=" << b << endl;
+  cout << "Server::SetDueDate" << endl;
   return S_OK_;
 }
 
-HRESULT_ __stdcall Server::Fy2()
+HRESULT_ __stdcall Server::ShowTasks()
 {	 	    		
-  cout << "Server::Fy2" << endl;
-  b = b + 2;
-  cout << "b=" << b << endl;
+  cout << "Server::ShowTasks" << endl;
+  return S_OK_;
+}
+
+HRESULT_ __stdcall Server::AddNewTask()
+{	 	    		
+  cout << "Server::AddNewTask" << endl;
+  return S_OK_;
+}
+
+HRESULT_ __stdcall Server::EditTask(Task* task)
+{	 	    		
+  cout << "Server::EditTask" << endl;
+  return S_OK_;
+}
+
+HRESULT_ __stdcall Server::DeleteTask(Task* task)
+{	 	    		
+  cout << "Server::DeleteTask" << endl;
   return S_OK_;
 }

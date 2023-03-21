@@ -8,8 +8,8 @@ using ULONG_ = int;
 
 
 const int IID_IUnknown_ = 0;
-const int IID_IX = 1;
-const int IID_IY = 2;
+const int IID_Task = 1;
+const int IID_TaskManager = 2;
 
 const int CLSID_CServer = 1;
 
@@ -25,18 +25,21 @@ class IUnknown_
 	 virtual ULONG_ __stdcall Release()=0;
 }; 
 
-class IX: public IUnknown_
+class Task: public IUnknown_
 {
 	public:
-	 virtual HRESULT_ __stdcall Fx1()=0;
-	 virtual HRESULT_ __stdcall Fx2()=0;
+	 virtual HRESULT_ __stdcall SetTitle(const char* title)=0;
+	 virtual HRESULT_ __stdcall SetDiscription(const char* desc)=0;
+	 virtual HRESULT_ __stdcall SetDueDate(const char* date)=0;
 };
 
-class IY: public IUnknown_
+class TaskManager: public IUnknown_
 {
 	public:
-	 virtual HRESULT_ __stdcall Fy1()=0;
-	 virtual HRESULT_ __stdcall Fy2()=0;
+	 virtual HRESULT_ __stdcall ShowTasks()=0;
+	 virtual HRESULT_ __stdcall AddNewTask()=0;
+	 virtual HRESULT_ __stdcall EditTask(Task* task)=0;
+	 virtual HRESULT_ __stdcall DeleteTask(Task* task)=0;
 };
 
 

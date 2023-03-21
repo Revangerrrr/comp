@@ -3,7 +3,7 @@
 
 #include "iserver.h"
 
-class Server: public IX, public IY 
+class Server: public Task, public TaskManager 
 {
 	private:
 	 int fRefCount;
@@ -18,11 +18,14 @@ class Server: public IX, public IY
 	 virtual ULONG_ __stdcall AddRef();
 	 virtual ULONG_ __stdcall Release();
 
-	 virtual HRESULT_ __stdcall Fx1();
-	 virtual HRESULT_ __stdcall Fx2();
+	 virtual HRESULT_ __stdcall SetTitle(const char* title);
+	 virtual HRESULT_ __stdcall SetDiscription(const char* desc);
+	 virtual HRESULT_ __stdcall SetDueDate(const char* date);
 
-	 virtual HRESULT_ __stdcall Fy1();
-	 virtual HRESULT_ __stdcall Fy2();
+	 virtual HRESULT_ __stdcall ShowTasks();
+	 virtual HRESULT_ __stdcall AddNewTask();
+	 virtual HRESULT_ __stdcall EditTask(Task* task);
+	 virtual HRESULT_ __stdcall DeleteTask(Task* task);
 };
 
 #endif // SERVER_H_INCLUDED

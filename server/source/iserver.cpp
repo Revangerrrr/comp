@@ -10,7 +10,7 @@ HRESULT_ __stdcall CreateServer(const CLSID_& clsid, const IID_& iid, void** ppv
   IUnknown_* s = NULL;
   if (clsid==CLSID_CServer) 
   {
-    s = (IUnknown_*)(IX*)new Server();
+    s = (IUnknown_*)(Task*) new Server();
   }  
   else
   {

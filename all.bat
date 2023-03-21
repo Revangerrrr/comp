@@ -6,9 +6,8 @@ xcopy .\server\build\iserver.o .\client\build\lib /Y
 xcopy .\server\source\iserver.h .\client\source\lib /Y
 
 g++ -c ./client/source/client.cpp  -o ./client/build/client.o
-g++ -c ./client/source/wrapper.cpp -o ./client/build/wrapper.o
 
-g++ ./client/build/client.o ./client/build/wrapper.o ./client/build/lib/iserver.o ./client/build/lib/server.o    -o ./client/build/client.exe
+g++ ./client/build/client.o ./client/build/lib/iserver.o ./client/build/lib/server.o    -o ./client/build/client.exe
 
 "client/build/client.exe"
 
