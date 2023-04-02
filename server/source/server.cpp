@@ -4,6 +4,90 @@
 using namespace std;
 
 
+ServerFactory::ServerFactory()
+{
+  cout << "ServerFactory::Constructor" << endl;
+  fRefCount = 0;
+}
+
+ServerFactory::~ServerFactory()  
+{
+  cout << "ServerFactory::Destructor" << endl;  
+}
+
+HRESULT_ __stdcall ServerFactory::QueryInterface(const IID_& iid, void** ppv)
+{
+   cout << "ServerFactory::QueryInterface" << endl;
+
+   if (iid==IID_IUnknown_)
+   {
+     *ppv = (IUnknown_*)(IClassFactory_*)this;
+   }
+   else if (iid==IID_IClassFactory_)
+   {
+     *ppv = static_cast<IClassFactory_*>(this);
+   }  
+   else if (iid==IID_TaskFactory)
+   {
+     *ppv = static_cast<TaskFactory*>(this);
+   } 
+   else
+   {
+     *ppv = NULL;
+     return E_NOINTERFACE_;
+   }
+   this->AddRef();
+   return S_OK_;
+}
+
+ULONG_ __stdcall ServerFactory::AddRef()
+{
+   cout << "ServerFactory::AddRef" << endl;
+   fRefCount++;
+   cout << "Current references: " << fRefCount << endl;
+   return fRefCount;
+}
+
+
+ULONG_ __stdcall ServerFactory::Release()
+{
+   cout << "ServerFactory::Relese" << endl;
+   fRefCount--;
+   cout << "Current references: " << fRefCount << endl;
+   if (fRefCount==0)
+   {
+     cout << "Self-destructing..." << endl;
+     delete this;
+     cout << "Self-destructing...OK" << endl;
+   }
+   return fRefCount;
+}
+	
+
+HRESULT_ __stdcall ServerFactory::CreateInstance(const IID_& iid, void** ppv)
+{	 	    		
+  cout << "ServerFactory::CreateInstance" << endl;
+  Server* s = new Server(); 
+  s->AddRef();
+  HRESULT_ res =  s->QueryInterface(iid,ppv);
+  s->Release();  
+  return res;  
+}
+
+HRESULT_ __stdcall ServerFactory::CreateTaskInstance(const IID_& iid, void** ppv)
+{	 	    		
+  cout << "ServerFactory::CreateServer" << endl;
+  Server* s = new Server(); 
+  s->AddRef();
+  HRESULT_ res =  s->QueryInterface(iid,ppv);
+  s->Release();  
+  return res;  
+}
+
+
+//*********************************************************************************
+
+
 Server::Server() 
 {
   cout << "Server::Constructor" << endl;

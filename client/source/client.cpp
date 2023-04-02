@@ -5,7 +5,7 @@ using namespace std;
 int main() {	    		
 	cout << "Client::Main::Start" << endl;			
 
-	const char* task1 = ("task1");
+	/*const char* task1 = ("task1");
 	const char* desc1 = ("desc1");
 	const char* date1 = ("date1");
 	Task* task = NULL;
@@ -43,8 +43,11 @@ int main() {
 	}
 	
 	cout << "Client::Main::taskManager->Release" << endl;			
-	taskManager->Release();
+	taskManager->Release();*/
 	
+	cout << "Client::Main::GetClassObject Task&IClassFactory_" << endl;
+
+
     cout << "Client::Main::Finish" << endl;			
 
     cout << " " << endl;			

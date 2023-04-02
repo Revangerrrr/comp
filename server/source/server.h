@@ -28,4 +28,21 @@ class Server: public Task, public TaskManager
 	 virtual HRESULT_ __stdcall DeleteTask(Task* task);
 };
 
+class ServerFactory: public IClassFactory_, public TaskFactory
+{
+	private:
+	 int fRefCount;
+	 
+	public:
+	 ServerFactory();
+	 ~ServerFactory();
+
+	 virtual HRESULT_ __stdcall QueryInterface(const IID_& iid, void** ppv);
+	 virtual ULONG_ __stdcall AddRef();
+	 virtual ULONG_ __stdcall Release();
+
+	 virtual HRESULT_ __stdcall CreateInstance(const IID_& iid, void** ppv);
+	 virtual HRESULT_ __stdcall CreateTaskInstance(const IID_& iid, void** ppv);
+};
+
 #endif // SERVER_H_INCLUDED
