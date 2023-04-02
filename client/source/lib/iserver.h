@@ -12,10 +12,15 @@ const int IID_Task = 1;
 const int IID_TaskManager = 2;
 
 const int CLSID_CServer = 1;
+const int CLSID_TaskFactory = 1;
 
 const int S_OK_ = 0;
 const int E_NOINTERFACE_ = 1;
 const int E_NOCOMPONENT_ = 2;
+
+const int IID_IClassFactory_ = 100;
+const int IID_TaskFactory = 101;
+
 
 class IUnknown_
 {
@@ -42,12 +47,23 @@ class TaskManager: public IUnknown_
 	 virtual HRESULT_ __stdcall DeleteTask(Task* task)=0;
 };
 
+class IClassFactory_: public IUnknown_
+{
+	public:
+	 virtual HRESULT_ __stdcall CreateInstance(const IID_& iid, void** ppv)=0;
+};
+
+class TaskFactory: public IUnknown_
+{
+    public:	
+     virtual HRESULT_ __stdcall CreateTaskInstance(const IID_& iid, void** ppv)=0;	 
+};
 
 
 
- IUnknown_* __stdcall CreateServer_();
+ HRESULT_ __stdcall CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv);
 
- HRESULT_ __stdcall CreateServer(const CLSID_& clsid, const IID_& iid, void** ppv);
+ HRESULT_ __stdcall GetClassObject(const CLSID_& clsid, const IID_& iid, void** ppv);
 
 
 #endif // ISERVER_H_INCLUDED

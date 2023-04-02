@@ -21,15 +21,15 @@ HRESULT_ __stdcall ServerFactory::QueryInterface(const IID_& iid, void** ppv)
 
    if (iid==IID_IUnknown_)
    {
-     *ppv = (IUnknown_*)(IClassFactory_*)this;
+     *ppv = (IUnknown_*)(IClassFactory_*)this; 
    }
    else if (iid==IID_IClassFactory_)
    {
-     *ppv = static_cast<IClassFactory_*>(this);
+     *ppv = static_cast<IClassFactory_*>(this);    
    }  
    else if (iid==IID_TaskFactory)
    {
-     *ppv = static_cast<TaskFactory*>(this);
+     *ppv = static_cast<TaskFactory*>(this);    
    } 
    else
    {
@@ -76,7 +76,7 @@ HRESULT_ __stdcall ServerFactory::CreateInstance(const IID_& iid, void** ppv)
 
 HRESULT_ __stdcall ServerFactory::CreateTaskInstance(const IID_& iid, void** ppv)
 {	 	    		
-  cout << "ServerFactory::CreateServer" << endl;
+  cout << "ServerFactory::CreateTaskInstance" << endl;
   Server* s = new Server(); 
   s->AddRef();
   HRESULT_ res =  s->QueryInterface(iid,ppv);
