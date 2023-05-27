@@ -15,17 +15,17 @@ ServerFactory::~ServerFactory()
   cout << "ServerFactory::Destructor" << endl;  
 }
 
-HRESULT_ __stdcall ServerFactory::QueryInterface(const IID_& iid, void** ppv)
+HRESULT __stdcall ServerFactory::QueryInterface(const IID& iid, void** ppv)
 {
    cout << "ServerFactory::QueryInterface" << endl;
 
-   if (iid==IID_IUnknown_)
+   if (iid==IID_IUnknown1)
    {
-     *ppv = (IUnknown_*)(IClassFactory_*)this; 
+     *ppv = (IUnknown*)(IClassFactory*)this; 
    }
-   else if (iid==IID_IClassFactory_)
+   else if (iid==IID_IClassFactory1)
    {
-     *ppv = static_cast<IClassFactory_*>(this);    
+     *ppv = static_cast<IClassFactory*>(this);    
    }  
    else if (iid==IID_TaskFactory)
    {
@@ -34,13 +34,13 @@ HRESULT_ __stdcall ServerFactory::QueryInterface(const IID_& iid, void** ppv)
    else
    {
      *ppv = NULL;
-     return E_NOINTERFACE_;
+     return E_NOINTERFACE;
    }
    this->AddRef();
-   return S_OK_;
+   return S_OK;
 }
 
-ULONG_ __stdcall ServerFactory::AddRef()
+ULONG __stdcall ServerFactory::AddRef()
 {
    cout << "ServerFactory::AddRef" << endl;
    fRefCount++;
@@ -49,7 +49,7 @@ ULONG_ __stdcall ServerFactory::AddRef()
 }
 
 
-ULONG_ __stdcall ServerFactory::Release()
+ULONG __stdcall ServerFactory::Release()
 {
    cout << "ServerFactory::Relese" << endl;
    fRefCount--;
@@ -64,22 +64,22 @@ ULONG_ __stdcall ServerFactory::Release()
 }
 	
 
-HRESULT_ __stdcall ServerFactory::CreateInstance(const IID_& iid, void** ppv)
+HRESULT __stdcall ServerFactory::CreateInstance(IUnknown* pUnknownOuter, const IID& iid, void** ppv)
 {	 	    		
   cout << "ServerFactory::CreateInstance" << endl;
   Server* s = new Server(); 
   s->AddRef();
-  HRESULT_ res =  s->QueryInterface(iid,ppv);
+  HRESULT res =  s->QueryInterface(iid,ppv);
   s->Release();  
   return res;  
 }
 
-HRESULT_ __stdcall ServerFactory::CreateTaskInstance(const IID_& iid, void** ppv)
+HRESULT __stdcall ServerFactory::CreateTaskInstance(const IID& iid, void** ppv)
 {	 	    		
   cout << "ServerFactory::CreateTaskInstance" << endl;
   Server* s = new Server(); 
   s->AddRef();
-  HRESULT_ res =  s->QueryInterface(iid,ppv);
+  HRESULT res =  s->QueryInterface(iid,ppv);
   s->Release();  
   return res;  
 }
@@ -99,13 +99,13 @@ Server::~Server()
   cout << "Server::Destructor" << endl;  
 }
 
-HRESULT_ __stdcall Server::QueryInterface(const IID_& iid, void** ppv)
+HRESULT __stdcall Server::QueryInterface(const IID& iid, void** ppv)
 {
    cout << "Server::QueryInterface" << endl;
 
-   if (iid==IID_IUnknown_)
+   if (iid==IID_IUnknown1)
    {
-     *ppv = (IUnknown_*)(Task*)this;
+     *ppv = (IUnknown*)(Task*)this;
    }
    else if (iid==IID_Task)
    {
@@ -118,13 +118,13 @@ HRESULT_ __stdcall Server::QueryInterface(const IID_& iid, void** ppv)
    else
    {
      *ppv = NULL;
-     return E_NOINTERFACE_;
+     return E_NOINTERFACE;
    }
    this->AddRef();
-   return S_OK_;
+   return S_OK;
 }
 
-ULONG_ __stdcall Server::AddRef()
+ULONG __stdcall Server::AddRef()
 {
    cout << "Server::AddRef" << endl;
    fRefCount++;
@@ -133,7 +133,7 @@ ULONG_ __stdcall Server::AddRef()
 }
 
 
-ULONG_ __stdcall Server::Release()
+ULONG __stdcall Server::Release()
 {
    cout << "Server::Relese" << endl;
    fRefCount--;
@@ -148,44 +148,49 @@ ULONG_ __stdcall Server::Release()
 }
 	
 
-HRESULT_ __stdcall Server::SetTitle(const char* title) 
+HRESULT __stdcall Server::SetTitle() 
 {	 	    		
   cout << "Server::SetTitle" << endl;
-  return S_OK_;
+  return S_OK;
 }
 
-HRESULT_ __stdcall Server::SetDiscription(const char* desc) 
+HRESULT __stdcall Server::SetDiscription() 
 {	 	    		
   cout << "Server::SetDiscription" << endl;
-  return S_OK_;
+  return S_OK;
 }
 
-HRESULT_ __stdcall Server::SetDueDate(const char* date)
+HRESULT __stdcall Server::SetDueDate()
 {	 	    		
   cout << "Server::SetDueDate" << endl;
-  return S_OK_;
+  return S_OK;
 }
 
-HRESULT_ __stdcall Server::ShowTasks()
+HRESULT __stdcall Server::ShowTasks()
 {	 	    		
   cout << "Server::ShowTasks" << endl;
-  return S_OK_;
+  return S_OK;
 }
 
-HRESULT_ __stdcall Server::AddNewTask()
+HRESULT __stdcall Server::AddNewTask()
 {	 	    		
   cout << "Server::AddNewTask" << endl;
-  return S_OK_;
+  return S_OK;
 }
 
-HRESULT_ __stdcall Server::EditTask(Task* task)
+HRESULT __stdcall Server::EditTask()
 {	 	    		
   cout << "Server::EditTask" << endl;
-  return S_OK_;
+  return S_OK;
 }
 
-HRESULT_ __stdcall Server::DeleteTask(Task* task)
+HRESULT __stdcall Server::DeleteTask()
 {	 	    		
   cout << "Server::DeleteTask" << endl;
-  return S_OK_;
+  return S_OK;
+}
+
+HRESULT __stdcall ServerFactory::LockServer(BOOL bLock)
+{
+  return S_OK;
 }

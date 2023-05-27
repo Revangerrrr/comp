@@ -1,69 +1,40 @@
 #ifndef ISERVER_H_INCLUDED
 #define ISERVER_H_INCLUDED
-
-using IID_ = int;
-using CLSID_ = int;
-using HRESULT_ = int;
-using ULONG_ = int;
+#include "windows.h"
 
 
-const int IID_IUnknown_ = 0;
-const int IID_Task = 1;
-const int IID_TaskManager = 2;
+const IID IID_IUnknown1 = {0x00000000,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
+const IID IID_IClassFactory1 = {0x00000001,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
+const IID IID_TaskFactory = {0x00000002,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
 
-const int CLSID_CServer = 1;
-const int CLSID_TaskFactory = 1;
+const IID IID_Task = {0x00000001,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}};
+const IID IID_TaskManager = {0x00000002,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}};
 
-const int S_OK_ = 0;
-const int E_NOINTERFACE_ = 1;
-const int E_NOCOMPONENT_ = 2;
+//{5D3A941C-0D2E-4929-936E-7D8BF1F6D05F}
+const CLSID CLSID_Server = {0x5D3A941C,0x0D2E,0x4929,{0x93,0x6E,0x7D,0x8B,0xF1,0xF6,0xD0,0x5F}};
 
-const int IID_IClassFactory_ = 100;
-const int IID_TaskFactory = 101;
+class Task: public IUnknown
+{
+	public:
+	 virtual HRESULT __stdcall SetTitle()=0;
+	 virtual HRESULT __stdcall SetDiscription()=0;
+	 virtual HRESULT __stdcall SetDueDate()=0;
+};
 
+class TaskManager: public IUnknown
+{
+	public:
+	 virtual HRESULT __stdcall ShowTasks()=0;
+	 virtual HRESULT __stdcall AddNewTask()=0;
+	 virtual HRESULT __stdcall EditTask()=0;
+	 virtual HRESULT __stdcall DeleteTask()=0;
+};
 
-class IUnknown_
+class TaskFactory: public IUnknown
 {
     public:	
-     virtual HRESULT_ __stdcall QueryInterface(const IID_& iid, void** ppv)=0;
-	 virtual ULONG_ __stdcall AddRef()=0;
-	 virtual ULONG_ __stdcall Release()=0;
-}; 
-
-class Task: public IUnknown_
-{
-	public:
-	 virtual HRESULT_ __stdcall SetTitle(const char* title)=0;
-	 virtual HRESULT_ __stdcall SetDiscription(const char* desc)=0;
-	 virtual HRESULT_ __stdcall SetDueDate(const char* date)=0;
+     virtual HRESULT __stdcall CreateTaskInstance(const IID& iid, void** ppv)=0;	 
 };
 
-class TaskManager: public IUnknown_
-{
-	public:
-	 virtual HRESULT_ __stdcall ShowTasks()=0;
-	 virtual HRESULT_ __stdcall AddNewTask()=0;
-	 virtual HRESULT_ __stdcall EditTask(Task* task)=0;
-	 virtual HRESULT_ __stdcall DeleteTask(Task* task)=0;
-};
-
-class IClassFactory_: public IUnknown_
-{
-	public:
-	 virtual HRESULT_ __stdcall CreateInstance(const IID_& iid, void** ppv)=0;
-};
-
-class TaskFactory: public IUnknown_
-{
-    public:	
-     virtual HRESULT_ __stdcall CreateTaskInstance(const IID_& iid, void** ppv)=0;	 
-};
-
-
-
- HRESULT_ __stdcall CreateInstance(const CLSID_& clsid, const IID_& iid, void** ppv);
-
- HRESULT_ __stdcall GetClassObject(const CLSID_& clsid, const IID_& iid, void** ppv);
-
-
+extern "C" HRESULT __stdcall __declspec(dllexport) DllGetClassObject(const CLSID& clsid, const IID& iid, void** ppv);
 #endif // ISERVER_H_INCLUDED

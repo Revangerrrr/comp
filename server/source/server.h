@@ -8,27 +8,25 @@ class Server: public Task, public TaskManager
 	private:
 	 int fRefCount;
 
-	 int a;
-	 int b;
 	public:
 	 Server();
 	 ~Server();
 
-	 virtual HRESULT_ __stdcall QueryInterface(const IID_& iid, void** ppv);
-	 virtual ULONG_ __stdcall AddRef();
-	 virtual ULONG_ __stdcall Release();
+	 virtual HRESULT __stdcall QueryInterface(const IID& iid, void** ppv);
+	 virtual ULONG __stdcall AddRef();
+	 virtual ULONG __stdcall Release();
 
-	 virtual HRESULT_ __stdcall SetTitle(const char* title);
-	 virtual HRESULT_ __stdcall SetDiscription(const char* desc);
-	 virtual HRESULT_ __stdcall SetDueDate(const char* date);
+	 virtual HRESULT __stdcall SetTitle();
+	 virtual HRESULT __stdcall SetDiscription();
+	 virtual HRESULT __stdcall SetDueDate();
 
-	 virtual HRESULT_ __stdcall ShowTasks();
-	 virtual HRESULT_ __stdcall AddNewTask();
-	 virtual HRESULT_ __stdcall EditTask(Task* task);
-	 virtual HRESULT_ __stdcall DeleteTask(Task* task);
+	 virtual HRESULT __stdcall ShowTasks();
+	 virtual HRESULT __stdcall AddNewTask();
+	 virtual HRESULT __stdcall EditTask();
+	 virtual HRESULT __stdcall DeleteTask();
 };
 
-class ServerFactory: public IClassFactory_, public TaskFactory
+class ServerFactory: public IClassFactory, public TaskFactory
 {
 	private:
 	 int fRefCount;
@@ -37,12 +35,14 @@ class ServerFactory: public IClassFactory_, public TaskFactory
 	 ServerFactory();
 	 ~ServerFactory();
 
-	 virtual HRESULT_ __stdcall QueryInterface(const IID_& iid, void** ppv);
-	 virtual ULONG_ __stdcall AddRef();
-	 virtual ULONG_ __stdcall Release();
+	 virtual HRESULT __stdcall QueryInterface(const IID& iid, void** ppv);
+	 virtual ULONG __stdcall AddRef();
+	 virtual ULONG __stdcall Release();
 
-	 virtual HRESULT_ __stdcall CreateInstance(const IID_& iid, void** ppv);
-	 virtual HRESULT_ __stdcall CreateTaskInstance(const IID_& iid, void** ppv);
+	 virtual HRESULT __stdcall CreateInstance(IUnknown* pUnknownOuter, const IID& iid, void** ppv);
+	 virtual HRESULT __stdcall CreateTaskInstance(const IID& iid, void** ppv);
+
+	 virtual HRESULT __stdcall LockServer(BOOL bLock);
 };
 
 #endif // SERVER_H_INCLUDED
