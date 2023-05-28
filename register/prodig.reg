@@ -1,0 +1,9 @@
+﻿Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Pervakov.Application]
+
+[HKEY_CLASSES_ROOT\Pervakov.Application\CLSID]
+@="{5D3A941C-0D2E-4929-936E-7D8BF1F6D05F}"
+
+
+
