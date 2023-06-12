@@ -4,11 +4,11 @@ using namespace std;
 
 extern "C" HRESULT __stdcall __declspec(dllexport) DllGetClassObject(const CLSID& clsid, const IID& iid, void** ppv)
 {
-  cout << "Function::dllGetClassObject" << endl;
+  cout << "Function::dllGetClassObject Server2" << endl;
   IUnknown* s = NULL;
-  if (clsid==CLSID_Server) 
+  if (clsid==CLSID_Server2) 
   {
-    s = (IUnknown*)(IClassFactory*) new ServerFactory();
+    s = (IUnknown*)(IClassFactory*) new Server2Factory();
   }  
   else
   {

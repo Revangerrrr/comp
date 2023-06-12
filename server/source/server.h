@@ -3,7 +3,7 @@
 
 #include "iserver.h"
 
-class Server: public Task, public TaskManager, public IDispatch
+class Server: public Task, public TaskManager, public Task_IncludingTest, public IDispatch
 {
 	private:
 	 int fRefCount;
@@ -11,6 +11,7 @@ class Server: public Task, public TaskManager, public IDispatch
 	public:
 	 Server();
 	 ~Server();
+	 Task_IncludingTest* T_IT;
 
 	 virtual HRESULT __stdcall QueryInterface(const IID& iid, void** ppv);
 	 virtual ULONG __stdcall AddRef();
@@ -24,6 +25,7 @@ class Server: public Task, public TaskManager, public IDispatch
 	 virtual HRESULT __stdcall AddNewTask();
 	 virtual HRESULT __stdcall EditTask();
 	 virtual HRESULT __stdcall DeleteTask();
+	 virtual HRESULT __stdcall IncludingTest();
 	 int test = 1;
 
 	 //IDispatch (Begin)

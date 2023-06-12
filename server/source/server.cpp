@@ -1,5 +1,4 @@
 #include "server.h"
-
 #include <iostream>
 using namespace std;
 
@@ -36,15 +35,14 @@ HRESULT __stdcall ServerFactory::QueryInterface(const IID& iid, void** ppv)
      *ppv = NULL;
      return E_NOINTERFACE;
    }
+   cout << "--------------" << endl;
    this->AddRef();
    return S_OK;
 }
 
 ULONG __stdcall ServerFactory::AddRef()
 {
-   cout << "ServerFactory::AddRef" << endl;
    fRefCount++;
-   cout << "Current references: " << fRefCount << endl;
    return fRefCount;
 }
 
@@ -65,12 +63,14 @@ ULONG __stdcall ServerFactory::Release()
 	
 
 HRESULT __stdcall ServerFactory::CreateInstance(IUnknown* pUnknownOuter, const IID& iid, void** ppv)
-{	 	    		
+{	 	    	
+  if (pUnknownOuter!=NULL)
+  {
+    return E_NOTIMPL;
+  };	
   cout << "ServerFactory::CreateInstance" << endl;
   Server* s = new Server(); 
-  s->AddRef();
-  HRESULT res =  s->QueryInterface(iid,ppv);
-  s->Release();  
+  HRESULT res =  s->QueryInterface(iid,ppv);  
   return res;  
 }
 
@@ -78,12 +78,14 @@ HRESULT __stdcall ServerFactory::CreateTaskInstance(const IID& iid, void** ppv)
 {	 	    		
   cout << "ServerFactory::CreateTaskInstance" << endl;
   Server* s = new Server(); 
-  s->AddRef();
-  HRESULT res =  s->QueryInterface(iid,ppv);
-  s->Release();  
+  HRESULT res =  s->QueryInterface(iid,ppv); 
   return res;  
 }
 
+HRESULT __stdcall ServerFactory::LockServer(BOOL bLock)
+{
+  return S_OK;
+}
 
 //*********************************************************************************
 
@@ -92,6 +94,27 @@ Server::Server()
 {
   cout << "Server::Constructor" << endl;
   fRefCount = 0;
+
+  CoInitialize(NULL);
+
+    IClassFactory* pCF = NULL;
+    HRESULT resFactory = CoGetClassObject(CLSID_Server2, CLSCTX_INPROC_SERVER, NULL, IID_IClassFactory1, (void**)&pCF);
+
+	if (!(SUCCEEDED(resFactory)))
+    {
+        throw "No factoty";
+    }
+
+  HRESULT resInstance = pCF->CreateInstance(NULL, IID_Task_IncludingTest, (void**) &T_IT);
+
+  if (!SUCCEEDED(resInstance))
+  {
+      cout << "No instance" << endl;
+  }
+
+  pCF->Release();
+
+  CoUninitialize(); 
 }
 
 Server::~Server()  
@@ -162,7 +185,7 @@ HRESULT __stdcall Server::GetIDsOfNames(REFIID riid, LPOLESTR* rgszNames, UINT c
     return S_OK;
 }
 
-HRESULT __stdcall Server::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid,WORD wFlags, DISPPARAMS* pDispParams,VARIANT* pVarResult,
+HRESULT __stdcall Server::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pDispParams,VARIANT* pVarResult,
                              EXCEPINFO* pExcepInfo, UINT* puArgErr)
 {
     cout << "Server:Invoke" << endl;
@@ -241,6 +264,10 @@ HRESULT __stdcall Server::QueryInterface(const IID& iid, void** ppv)
    else if (iid==IID_TaskManager)
    {
      *ppv = static_cast<TaskManager*>(this);
+   }
+   else if (iid==IID_Task_IncludingTest)
+   {
+     *ppv = static_cast<Task_IncludingTest*>(this);
    }
    else if (iid==IID_IDispatch1)
    {
@@ -321,7 +348,8 @@ HRESULT __stdcall Server::DeleteTask()
   return S_OK;
 }
 
-HRESULT __stdcall ServerFactory::LockServer(BOOL bLock)
+HRESULT __stdcall Server::IncludingTest()
 {
-  return S_OK;
+  cout << "Server::IncludingTest" << endl;
+  return T_IT -> IncludingTest();
 }

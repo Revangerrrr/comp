@@ -1,0 +1,30 @@
+#ifndef ISERVER_H_INCLUDED
+#define ISERVER_H_INCLUDED
+#include "windows.h"
+
+// Guids
+const IID IID_IUnknown1 = {0x00000000,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
+const IID IID_IClassFactory1 = {0x00000001,0x0000,0x0000,{0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x46}};
+
+
+const IID IID_Task_IncludingTest = {0x00000005,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}};
+const IID IID_Task_IncludingTest_Factory = {0x00000006,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}};
+
+//{0A878E98-7253-4916-9B14-2E5FBF1CEB83}
+const CLSID CLSID_Server2 = {0x0A878E98,0x7253,0x4916,{0x9B,0x14,0x2E,0x5F,0xBF,0x1C,0xEB,0x83}};
+
+class Task_IncludingTest: public IUnknown
+{
+	public:
+	 virtual HRESULT __stdcall IncludingTest() = 0;
+};
+
+
+class Task_IncludingTest_Factory: public IUnknown
+{
+    public:	
+     virtual HRESULT __stdcall CreateInstance(IUnknown* pUnknownOuter, const IID& iid, void** ppv)=0;	 
+};
+
+extern "C" HRESULT __stdcall __declspec(dllexport) DllGetClassObject(const CLSID& clsid, const IID& iid, void** ppv);
+#endif // ISERVER_H_INCLUDED

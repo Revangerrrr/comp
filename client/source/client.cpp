@@ -16,6 +16,8 @@ int main() {
         throw "No factoty";
       }
     
+	cout << "---------11-----" << endl;
+
 	Task* task = NULL;
 	HRESULT resInstance = pCF->CreateInstance(NULL, IID_Task ,(void**)&task);
 
@@ -24,6 +26,7 @@ int main() {
         throw "No instance";
     }
 
+	cout << "---------111-----" << endl;
 	TaskManager* taskmanager = NULL;
 	HRESULT resQuery = task->QueryInterface(IID_TaskManager ,(void**)&taskmanager);
 
@@ -32,15 +35,29 @@ int main() {
         throw "No QueryUnterface";
     }
 
-	pCF->Release();
+	Task_IncludingTest* T_IT = NULL;
+	HRESULT resQuery2 = task->QueryInterface(IID_Task_IncludingTest ,(void**)&T_IT);
 
+	if (!SUCCEEDED(resQuery2))
+    {
+        throw "No QueryUnterface";
+    }
+
+	pCF->Release();
+	cout << "---------2-----" << endl;
+	T_IT->IncludingTest();
+	T_IT->Release();
+	cout << "---------2-----" << endl;
 	task->SetTitle();
 	task->SetDiscription();
 	task->SetDueDate();
+	task->Release();
 
 	taskmanager->ShowTasks();
 	taskmanager->AddNewTask();
 	taskmanager->EditTask();
 	taskmanager->DeleteTask();
+	taskmanager->Release();
+	
 
 }
