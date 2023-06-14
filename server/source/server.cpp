@@ -33,7 +33,7 @@ HRESULT __stdcall ServerFactory::QueryInterface(const IID& iid, void** ppv)
    else
    {
      *ppv = NULL;
-     return E_NOINTERFACE;
+     return E_NOINTERFACE;  
    }
    cout << "--------------" << endl;
    this->AddRef();
@@ -119,7 +119,8 @@ Server::Server()
 
 Server::~Server()  
 {
-  cout << "Server::Destructor" << endl;  
+  cout << "Server::Destructor" << endl; 
+  T_IT -> Release(); 
 }
 
 //IDispatch (Begin)
@@ -174,10 +175,6 @@ HRESULT __stdcall Server::GetIDsOfNames(REFIID riid, LPOLESTR* rgszNames, UINT c
     {
       rgDispId[0] = 7;
     }
-    else if (wcscmp(rgszNames[0],L"test")==0)
-    {
-      rgDispId[0] = 8;
-    }
     else
     {
        return E_NOTIMPL;
@@ -216,30 +213,6 @@ HRESULT __stdcall Server::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, WO
     else if (dispIdMember==7)
     {
        DeleteTask();
-    }
-    else if (dispIdMember==8)
-    {
-       {
-       if ( (wFlags==DISPATCH_PROPERTYGET) || (wFlags==1) || (wFlags==3) )
-       {
-          if (pVarResult!=NULL)
-          {
-            pVarResult->vt = VT_INT;
-            pVarResult->intVal = test;
-          }
-       }
-       else if (wFlags==DISPATCH_PROPERTYPUT)
-       {
-          DISPPARAMS param = *pDispParams;
-          VARIANT arg = (param.rgvarg)[0];
-          VariantChangeType(&arg,&arg,0,VT_INT);
-          test = arg.intVal;
-       }
-       else
-       {
-         return E_NOTIMPL;
-       }
-    };
     }
     else
     {
